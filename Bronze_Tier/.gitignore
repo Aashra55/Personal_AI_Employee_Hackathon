@@ -3,3 +3,7 @@ __pycache__
 .venv/
 token.json
 credentials.json
+
+# Ignore sensitive files
+Bronze_Tier/credentials.json
+Bronze_Tier/token.json
