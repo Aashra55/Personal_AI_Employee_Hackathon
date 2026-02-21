@@ -1,0 +1,232 @@
+{
+  "main": {
+    "id": "98f3d42d4a2883f6",
+    "type": "split",
+    "children": [
+      {
+        "id": "4dc40364efe960b5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b185768e55fea999",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Leads/sara_coaching_website.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "sara_coaching_website"
+            }
+          },
+          {
+            "id": "7155891bf878d75c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Dashboard.md.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Dashboard.md"
+            }
+          }
+        ]
+      },
+      {
+        "id": "2d772b335004206f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "88450bdedc55e2e9",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4c9de9cd73294039",
+    "type": "split",
+    "children": [
+      {
+        "id": "790a4084be4f6652",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "91e7abc9b098e89f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "3e0ceafb0d0aec9c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "5ea9fb8304cdae3c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f63eef9e3c50597e",
+    "type": "split",
+    "children": [
+      {
+        "id": "212e1e505f4c8c97",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "59b0f9933cbccad5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Company_Handbook.md.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Company_Handbook.md"
+            }
+          },
+          {
+            "id": "f5e258d0dac05ab4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Company_Handbook.md.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Company_Handbook.md"
+            }
+          },
+          {
+            "id": "8c7af4a7d0cca4ea",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ea26664669c0c7d2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "cc96bea2a782a284",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Company_Handbook.md.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Company_Handbook.md"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "b185768e55fea999",
+  "lastOpenFiles": [
+    "Dashboard.md.md",
+    "Dashboard.md.tmp.20476.1771353566690",
+    "Leads/sara_coaching_website.md",
+    "Leads/sara_coaching_website.md.tmp.20476.1771353500453",
+    "Dashboard.md",
+    "Dashboard.md.tmp.20476.1771353494513",
+    "Inbox/test_task.md",
+    "Leads",
+    "Company_Handbook.md.md",
+    "Needs_Action",
+    "Done",
+    "Inbox",
+    "Welcome.md"
+  ]
+}
