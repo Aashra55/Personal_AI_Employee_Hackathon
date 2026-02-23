@@ -1,9 +1,11 @@
+# IDE / Tool specific
+**/.obsidian/
+
+# Python
 .env
-__pycache__
+__pycache__/
 .venv/
+
+# Sensitive info
 token.json
 credentials.json
-
-# Ignore sensitive files
-Bronze_Tier/credentials.json
-Bronze_Tier/token.json
