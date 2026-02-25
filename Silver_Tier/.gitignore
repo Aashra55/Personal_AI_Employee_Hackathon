@@ -1,0 +1,11 @@
+# IDE / Tool specific
+**/.obsidian/
+
+# Python
+.env
+__pycache__/
+.venv/
+
+# Sensitive info
+token.json
+credentials.json
