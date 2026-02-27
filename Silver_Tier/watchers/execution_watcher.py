@@ -28,49 +28,26 @@ class ExecutionWatcher(BaseWatcher):
         print(f"[*] Processing item for reasoning: {action_file.name}")
         content = action_file.read_text(encoding="utf-8")
         
-        prompt = f"""
-You are an AI Employee Reasoning Engine. 
-Analyze the following request and create a detailed Plan and an Action Request.
-
-ITEM CONTENT:
-{content}
-
-YOUR TASK:
-1. Create a Plan (what needs to be done).
-2. If it is an email, ALWAYS suggest a Draft Reply even if it's just a test or a simple greeting.
-3. If the action requires external impact (sending email, posting to social media), create an 'Approval Request'.
-4. Respond in Markdown.
-
-STRUCTURE YOUR RESPONSE STRICTLY AS FOLLOWS:
-
-## PLAN
-[Your detailed steps]
-
-## ACTION_REQUEST
----
-type: [email/linkedin_post]
-To: [recipient email address]
-Subject: [subject line]
-## Content / Body
-[The actual content to be sent or posted]
----
-"""
-
         # Read Handbook for context
         handbook_path = self.vault_path / "Company_Handbook.md.md"
         handbook_content = handbook_path.read_text(encoding="utf-8") if handbook_path.exists() else ""
 
-        prompt = f"""
-Use the following Company Handbook and Email Content to generate a professional action.
-If it is a business inquiry, treat it as a Lead. If it is a test, acknowledge it professionally.
+        # Determine if it's a LinkedIn post or an Email based on the source file or content
+        is_linkedin = "linkedin_post" in content or "LINKEDIN_" in action_file.name
 
---- COMPANY HANDBOOK ---
-{handbook_content}
-
---- EMAIL TO PROCESS ---
-{content}
-
---- TASK ---
+        if is_linkedin:
+            task_instruction = """
+1. Analyze the LinkedIn Idea.
+2. Create a 'PLAN' in markdown.
+3. Create an 'ACTION_REQUEST' with the EXACT format:
+   ---
+   type: linkedin_post
+   ## Content / Body
+   [Your professional LinkedIn post content]
+   ---
+"""
+        else:
+            task_instruction = """
 1. Analyze the email based on Handbook rules.
 2. Create a 'PLAN' in markdown.
 3. Create an 'ACTION_REQUEST' with the EXACT format:
@@ -81,6 +58,22 @@ If it is a business inquiry, treat it as a Lead. If it is a test, acknowledge it
    ## Content / Body
    [Your professional reply as the Personal AI Employee of Aashra Saleem]
    ---
+"""
+
+        prompt = f"""
+You are an AI Employee Reasoning Engine. 
+Use the following Company Handbook and Content to generate a professional action.
+
+--- COMPANY HANDBOOK ---
+{handbook_content}
+
+--- ITEM TO PROCESS ---
+{content}
+
+--- TASK ---
+{task_instruction}
+
+Respond STRICTLY with the PLAN and ACTION_REQUEST sections.
 """
         try:
             # We use 'ccr.cmd code' and pass the prompt via input (stdin)
@@ -96,15 +89,18 @@ If it is a business inquiry, treat it as a Lead. If it is a test, acknowledge it
             
             # If stdout is empty, check if we got a real response or if we need fallback
             if not ai_output or "Error:" in result.stderr:
-                print(f"[!] CCR returned error or no output. Using Handbook-aligned fallback.")
-                # Basic parsing for fallback
-                sender = "Unknown"
-                subject = "Re: Your message"
-                for line in content.split('\n'):
-                    if line.startswith('from:'): sender = line.split('from:')[1].strip()
-                    if line.startswith('subject:'): subject = "Re: " + line.split('subject:')[1].strip()
-                
-                ai_output = f"""
+                print(f"[!] CCR returned error or no output. Using fallback.")
+                if is_linkedin:
+                    ai_output = f"## PLAN\n1. Post LinkedIn idea.\n\n## ACTION_REQUEST\n---\ntype: linkedin_post\n## Content / Body\n{content}\n---"
+                else:
+                    # Basic parsing for fallback email
+                    sender = "Unknown"
+                    subject = "Re: Your message"
+                    for line in content.split('\n'):
+                        if line.startswith('from:'): sender = line.split('from:')[1].strip()
+                        if line.startswith('subject:'): subject = "Re: " + line.split('subject:')[1].strip()
+                    
+                    ai_output = f"""
 ## PLAN
 1. (Fallback) Acknowledging new email from {sender}.
 2. Review the drafted reply in Approval/Pending.
@@ -118,11 +114,7 @@ Subject: {subject}
 Dear {sender},
 
 Thank you for reaching out. I am the Personal AI Employee for Aashra Saleem.
-
-We have received your email regarding "{subject.replace('Re: ', '')}" and are processing it according to our Company Handbook. We will get back to you shortly with more details.
-
-Best regards,
-Aashra Saleem's AI Assistant
+...
 ---
 """
                 
@@ -133,9 +125,20 @@ Aashra Saleem's AI Assistant
             plan_file.write_text(ai_output, encoding="utf-8")
             
             # Extract and save Approval Request if present
+            request_part = None
             if "## ACTION_REQUEST" in ai_output:
                 request_part = ai_output.split("## ACTION_REQUEST")[1].strip()
-                # Remove the triple backticks if AI added them
+            elif "---" in ai_output and ("type: email" in ai_output or "type: linkedin_post" in ai_output):
+                # Look for the last markdown block or anything between ---
+                parts = ai_output.split("---")
+                # Usually it's --- [content] ---, so parts will have 3+ elements
+                for i in range(len(parts)-1):
+                    if "type: email" in parts[i+1] or "type: linkedin_post" in parts[i+1]:
+                        request_part = "---" + parts[i+1] + "---"
+                        break
+            
+            if request_part:
+                # Clean markdown blocks if AI added them
                 request_part = request_part.replace("```markdown", "").replace("```", "").strip()
                 
                 pending_file = self.pending_path / f"PENDING_{action_file.stem}.md"
