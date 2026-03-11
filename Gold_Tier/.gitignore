@@ -1,0 +1,14 @@
+# IDE / Tool specific
+**/.obsidian/
+**/twitter_profile/
+**/**_log.txt
+
+# Python
+.env
+__pycache__/
+.venv/
+
+# Sensitive info
+token.json
+credentials.json
+
