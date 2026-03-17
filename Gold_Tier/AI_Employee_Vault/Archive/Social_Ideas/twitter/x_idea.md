@@ -1,1 +1,0 @@
-Autonomous business is here. My Digital FTE just generated an invoice in Odoo and is now posting this tweet. 🚀

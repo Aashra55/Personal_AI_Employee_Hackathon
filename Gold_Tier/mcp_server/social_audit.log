@@ -29,3 +29,7 @@
 {"timestamp": "2026-03-11T17:23:39.712728", "platform": "twitter", "action": "POST", "status": "FAILED"}
 {"timestamp": "2026-03-11T18:16:09.640180", "platform": "twitter", "action": "POST", "status": "FAILED"}
 {"timestamp": "2026-03-11T18:27:27.984286", "platform": "twitter", "action": "POST", "status": "SUCCESS"}
+{"timestamp": "2026-03-13T22:31:15.733559", "platform": "facebook", "action": "POST", "status": "FAILED"}
+{"timestamp": "2026-03-13T22:32:47.709728", "platform": "twitter", "action": "POST", "status": "SUCCESS"}
+{"timestamp": "2026-03-17T15:42:27.874983", "platform": "facebook", "action": "POST", "status": "SUCCESS"}
+{"timestamp": "2026-03-17T15:42:33.063462", "platform": "facebook", "action": "POST", "status": "SUCCESS"}

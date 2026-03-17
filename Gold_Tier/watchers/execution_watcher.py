@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 from watchers.base_watcher import BaseWatcher
 from datetime import datetime
-from skills.reasoning_skill import ReasoningSkill
+from brain_logic.reasoning_skill import ReasoningSkill
 
 class ExecutionWatcher(BaseWatcher):
     def __init__(self, vault_path: str):
@@ -27,7 +27,7 @@ class ExecutionWatcher(BaseWatcher):
         content = action_file.read_text(encoding="utf-8")
         
         # Read Handbook for context
-        handbook_path = self.vault_path / "Company_Handbook.md.md"
+        handbook_path = self.vault_path.parent / "Company_Handbook.md"
         handbook_content = handbook_path.read_text(encoding="utf-8") if handbook_path.exists() else ""
 
         # Determine task type
@@ -38,8 +38,8 @@ class ExecutionWatcher(BaseWatcher):
         try:
             ai_output = self.skill.run_task(content, task_type, handbook_content)
             
-            if not ai_output:
-                print(f"[!] Reasoning Skill returned no output.")
+            if not ai_output or "API Error" in ai_output or "Quota Exceeded" in ai_output:
+                print(f"[!] Reasoning Skill failed or Quota Exceeded. Skipping for now.")
                 return None
                 
             print("[✓] Skill reasoning completed.")
