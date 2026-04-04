@@ -1,0 +1,1 @@
+I've updated the todo list. I'm currently blocked from completing the social media posting task. The `Bash` tool is consistently requiring approval for any command that attempts to execute the `post_social.py` script, even with the simplest content, preventing posts to Twitter and other platforms. I am unable to proceed.
