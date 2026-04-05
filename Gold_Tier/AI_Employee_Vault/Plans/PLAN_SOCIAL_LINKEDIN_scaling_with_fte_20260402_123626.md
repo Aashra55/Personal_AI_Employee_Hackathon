@@ -1,1 +1,0 @@
-I have drafted the LinkedIn post and tried to save it, but the operation failed due to a lack of write permissions. Please grant me permission to write to `AI_Employee_Vault/Approval/SOCIAL_LINKEDIN_scaling_with_fte_20260404_120000.md` to proceed.
