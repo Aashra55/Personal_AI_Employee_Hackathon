@@ -24,7 +24,7 @@ class ApprovalWatcher(BaseWatcher):
         
         success = False
         # Simple parsing logic for the approved action
-        if "type: email" in content:
+        if "type: email" in content or "type: email_response" in content:
             success = self._handle_email(content)
         elif "type: linkedin_post" in content:
             success = self._handle_linkedin(content)
@@ -55,16 +55,23 @@ class ApprovalWatcher(BaseWatcher):
             return dest
 
     def _extract_body(self, content, start_marker="## Content"):
-        # Helper to find body text - handle both "## Content" and "## Content / Body"
-        body_pos = content.find(start_marker)
-        if body_pos == -1 and start_marker == "## Content":
-            body_pos = content.find("## Content / Body")
+        # Helper to find body text - handle both "## Content" and "## Content / Body" and "body:"
+        markers = [start_marker, "## Content / Body", "body:"]
+        body_pos = -1
+        
+        for m in markers:
+            body_pos = content.find(m)
+            if body_pos != -1:
+                break
             
         if body_pos != -1:
             # Check if there is a line break after the marker
             lines = content[body_pos:].split('\n', 1)
             if len(lines) > 1:
                 body = lines[1].strip()
+                # Handle YAML style pipe
+                if body.startswith("|"):
+                    body = body[1:].strip()
                 # Clean up potential trailing markdown or horizontal rules
                 if "---" in body:
                     body = body.split("---")[0].strip()
@@ -74,7 +81,7 @@ class ApprovalWatcher(BaseWatcher):
     def _handle_email(self, content):
         to_match = re.search(r"To: (.*)", content)
         subject_match = re.search(r"Subject: (.*)", content)
-        body = self._extract_body(content, "## Content / Body")
+        body = self._extract_body(content, "## Content")
         
         if to_match and subject_match and body:
             to = to_match.group(1).strip()

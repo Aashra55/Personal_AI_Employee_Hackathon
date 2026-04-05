@@ -53,14 +53,22 @@ class ExecutionWatcher(BaseWatcher):
             if "## ACTION_REQUEST" in ai_output:
                 request_part = ai_output.split("## ACTION_REQUEST")[1].strip()
             elif "---" in ai_output:
+                # Look for the block between --- or until end of file
                 parts = ai_output.split("---")
-                for i in range(len(parts)-1):
-                    if "type:" in parts[i+1]:
-                        request_part = "---" + parts[i+1] + "---"
+                # Find the first part that looks like a YAML header
+                for i in range(1, len(parts)):
+                    if "type:" in parts[i]:
+                        # Join the rest of the file if there are more parts, or just take this one
+                        request_part = "---" + "---".join(parts[i:])
                         break
             
             if request_part:
+                # Clean up markdown markers if AI wrapped the whole thing
                 request_part = request_part.replace("```markdown", "").replace("```", "").strip()
+                # If there was a trailing ``` that we missed
+                if request_part.endswith("```"):
+                    request_part = request_part[:-3].strip()
+                
                 pending_file = self.pending_path / f"PENDING_{action_file.stem}.md"
                 pending_file.write_text(request_part, encoding="utf-8")
                 print(f"[+] Approval Request created: {pending_file.name}")

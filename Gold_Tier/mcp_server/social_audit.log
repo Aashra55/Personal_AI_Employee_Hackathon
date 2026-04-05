@@ -35,3 +35,6 @@
 {"timestamp": "2026-03-17T15:42:33.063462", "platform": "facebook", "action": "POST", "status": "SUCCESS"}
 {"timestamp": "2026-04-04T17:51:45.349574", "platform": "facebook", "action": "POST", "status": "SUCCESS"}
 {"timestamp": "2026-04-04T17:52:04.699600", "platform": "instagram", "action": "POST", "status": "SUCCESS"}
+{"timestamp": "2026-04-05T14:37:27.204798", "platform": "twitter", "action": "POST", "status": "FAILED"}
+{"timestamp": "2026-04-05T14:42:54.152014", "platform": "twitter", "action": "POST", "status": "SUCCESS"}
+{"timestamp": "2026-04-05T17:43:46.071565", "platform": "facebook", "action": "POST", "status": "SUCCESS"}
