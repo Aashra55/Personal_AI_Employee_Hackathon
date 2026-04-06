@@ -138,14 +138,55 @@ class SocialMediaClient:
         print(f"[MOCK] {platform} Post Simulation: {content[:50]}...")
         return True
 
+    def get_live_metrics(self):
+        metrics = {
+            "facebook": {"reach": 0, "engagement": 0, "followers": 0},
+            "instagram": {"reach": 0, "likes": 0, "followers": 0},
+            "twitter": {"impressions": 0, "retweets": 0, "followers": 0},
+            "linkedin": {"reach": 0, "engagement": 0, "followers": 0},
+            "status": "Live API Data"
+        }
+
+        # 1. Facebook Live Stats
+        if self.fb_token and self.fb_page_id:
+            try:
+                # Get Page Insights
+                url = f"https://graph.facebook.com/v19.0/{self.fb_page_id}/insights?metric=page_impressions_unique,page_post_engagements&period=day&access_token={self.fb_token}"
+                r = requests.get(url, timeout=10).json()
+                for m in r.get('data', []):
+                    if m['name'] == 'page_impressions_unique': metrics['facebook']['reach'] = m['values'][-1]['value']
+                    if m['name'] == 'page_post_engagements': metrics['facebook']['engagement'] = m['values'][-1]['value']
+                
+                # Get Follower Count
+                f_url = f"https://graph.facebook.com/v19.0/{self.fb_page_id}?fields=followers_count&access_token={self.fb_token}"
+                f_r = requests.get(f_url, timeout=10).json()
+                metrics['facebook']['followers'] = f_r.get('followers_count', 0)
+            except: pass
+
+        # 2. Instagram Live Stats
+        if self.fb_token and self.insta_id:
+            try:
+                url = f"https://graph.facebook.com/v19.0/{self.insta_id}?fields=followers_count,media_count&access_token={self.fb_token}"
+                r = requests.get(url, timeout=10).json()
+                metrics['instagram']['followers'] = r.get('followers_count', 0)
+                # Note: IG reach requires business_discovery or specific insights scopes
+            except: pass
+
+        # 3. Fallback to Logs for trends if API is limited
+        log_summary = self.get_summary() # Keep post counts from logs
+        for p in ["facebook", "instagram", "twitter", "linkedin"]:
+            metrics[p]["posts_this_week"] = log_summary.get(p, {}).get("posts", 0)
+
+        return metrics
+
     def get_summary(self):
         # Fetch stats from the social_audit.log file
         summary = {
-            "facebook": {"reach": 0, "engagement": 0},
-            "instagram": {"reach": 0, "likes": 0},
-            "twitter": {"impressions": 0, "retweets": 0},
-            "linkedin": {"reach": 0, "engagement": 0},
-            "status": "Live Data from Logs"
+            "facebook": {"posts": 0},
+            "instagram": {"posts": 0},
+            "twitter": {"posts": 0},
+            "linkedin": {"posts": 0},
+            "status": "Real Activity from Logs"
         }
         
         if not os.path.exists(LOG_FILE):
@@ -153,23 +194,14 @@ class SocialMediaClient:
             
         try:
             with open(LOG_FILE, "r") as f:
-                lines = f.readlines()
-                for line in lines:
+                for line in f:
                     entry = json.loads(line)
                     platform = entry.get("platform", "").lower()
                     if entry.get("status") == "SUCCESS":
-                        if platform == "facebook":
-                            summary["facebook"]["reach"] += 150 
-                            summary["facebook"]["engagement"] += 12
-                        elif platform == "instagram":
-                            summary["instagram"]["reach"] += 110
-                            summary["instagram"]["likes"] += 25
-                        elif platform in ["twitter", "x"]:
-                            summary["twitter"]["impressions"] += 450
-                            summary["twitter"]["retweets"] += 8
-                        elif platform == "linkedin":
-                            summary["linkedin"]["reach"] += 200
-                            summary["linkedin"]["engagement"] += 15
+                        if platform == "facebook": summary["facebook"]["posts"] += 1
+                        elif platform == "instagram": summary["instagram"]["posts"] += 1
+                        elif platform in ["twitter", "x"]: summary["twitter"]["posts"] += 1
+                        elif platform == "linkedin": summary["linkedin"]["posts"] += 1
         except Exception as e:
             print(f"[!] Summary Error: {e}")
             
@@ -198,6 +230,11 @@ if __name__ == "__main__":
     if cmd == "summary":
         summary = client.get_summary()
         print(json.dumps(summary))
+        sys.exit(0)
+
+    if cmd == "live":
+        metrics = client.get_live_metrics()
+        print(json.dumps(metrics))
         sys.exit(0)
 
     if len(sys.argv) < 3:

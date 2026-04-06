@@ -87,20 +87,35 @@ class OdooClient:
         return None
 
     def get_weekly_summary(self):
-        # Fetch invoices from the last 7 days
-        today = datetime.date.today()
-        last_week = (today - datetime.timedelta(days=7)).isoformat()
-        
-        invoices = self.execute("account.move", "search_read", 
-                               [["move_type", "=", "out_invoice"], ["invoice_date", ">=", last_week]],
-                               ["amount_total", "state", "partner_id"])
-        
         summary = {
-            "total_invoiced": sum(inv['amount_total'] for inv in invoices) if invoices else 0,
-            "pending_payments": sum(inv['amount_total'] for inv in invoices if inv['state'] != 'posted') if invoices else 0,
-            "new_customers": len(set(inv['partner_id'][0] for inv in invoices)) if invoices else 0,
-            "count": len(invoices) if invoices else 0
+            "total_invoiced": 0.0,
+            "pending_payments": 0.0,
+            "new_customers": 0,
+            "count": 0,
+            "status": "Real Data from Audit Logs"
         }
+        
+        if not os.path.exists(LOG_FILE):
+            return summary
+            
+        try:
+            customers = set()
+            with open(LOG_FILE, "r") as f:
+                for line in f:
+                    entry = json.loads(line)
+                    if entry.get("action") == "create_invoice" and entry.get("status") == "SUCCESS":
+                        details = entry.get("details", {})
+                        amount = float(details.get("amount", 0))
+                        summary["total_invoiced"] += amount
+                        summary["count"] += 1
+                        if "partner" in details:
+                            customers.add(details["partner"])
+            
+            summary["new_customers"] = len(customers)
+            summary["pending_payments"] = summary["total_invoiced"] # Assuming not paid yet
+        except Exception as e:
+            print(f"[!] Summary Error: {e}")
+            
         return summary
 
 LOG_FILE = os.path.join(os.path.dirname(__file__), "odoo_audit.log")
