@@ -72,12 +72,39 @@ This project requires several API keys and credentials. Here is how to get them:
     9. Use the **Access Token Debugger** on Meta's site to "Extend" this token to make it **Permanent** (Never Expire).
 
 ### 4. LinkedIn API
-- **How?**
-    - Create an app on [LinkedIn Developers](https://www.linkedin.com/developers/).
-    - Request the "Share on LinkedIn" and "Sign In with LinkedIn" products.
-    - Use OAuth 2.0 to generate an Access Token.
+- **The Challenge**: LinkedIn's API requires specific permissions (`w_member_social`) to post on a personal profile.
+- **How to Get Secrets**:
+    1. Create an app on the [LinkedIn Developers Portal](https://www.linkedin.com/developers/).
+    2. Under **Products**, add "Share on LinkedIn" and "Sign In with LinkedIn".
+    3. In the **Auth** tab, find your **Client ID** and **Client Secret**.
+    4. **Generate Access Token**:
+       - Use the [LinkedIn OAuth 2.0 Tools](https://www.linkedin.com/developers/tools/oauth) or a script to get a **3-legged Access Token**.
+       - Ensure you select the `w_member_social` and `openid profile` scopes.
+    5. **Find your Person ID (URN)**:
+       - Once you have the token, call the `me` endpoint:
+         ```bash
+         curl -X GET "https://api.linkedin.com/v2/me" -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+         ```
+       - The `id` field in the response (e.g., `urn:li:person:ABC123XYZ`) is your **LINKEDIN_PERSON_ID**.
+    6. Save `LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_PERSON_ID` in your `.env`.
 
-### 5. Odoo (Accounting)
+### 5. Instagram (Graph API)
+- **Prerequisite**: You must have an **Instagram Business Account** linked to a **Facebook Page**.
+- **How to get INSTA_USER_ID**:
+    1. First, complete the **Facebook & Instagram (Meta for Developers)** section above to get your `FB_ACCESS_TOKEN` and `FB_PAGE_ID`.
+    2. Ensure `INSTA_USERNAME` and `INSTA_PASSWORD` are saved in your `.env` file.
+    3. Run the Instagram Diagnostic Tool:
+       ```bash
+       python mcp_server/diag_insta.py
+       ```
+    4. This script will query the Graph API and provide the **Instagram Business Account ID** linked to your Page.
+    5. Copy the provided ID into your `.env` as `INSTA_USER_ID`.
+    6. **Default Image Fallback**:
+       - **For Graph API**: Save a public image URL as `INSTA_DEFAULT_IMAGE_URL` in your `.env`. This is used if no image is provided in the task or if the provided URL is broken.
+       - **For Selenium**: Ensure `mcp_server/ig_placeholder.png` exists. This local file acts as the default fallback for browser-based automation when no other image is specified.
+    7. These configurations ensure your Instagram posts never fail due to missing media.
+
+### 6. Odoo (Accounting)
 - **How?**
     - Use your Odoo instance URL (e.g., `https://yourcompany.odoo.com` or `http://localhost:8069`).
     - **Development/Local**: You can often use `admin` for both `ODOO_USER` and `ODOO_PASSWORD`.
