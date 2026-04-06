@@ -81,6 +81,109 @@ python run_system.py --loop
 
 ---
 
+## 🔑 Credential & Token Guide
+
+This project requires several API keys and credentials. Here is how to get them:
+
+### 1. Gmail (App Passwords)
+- **Why?** To read and send emails securely.
+- **How?** 
+    - Go to your Google Account -> Security.
+    - Enable **2-Factor Authentication**.
+    - Search for **"App Passwords"**.
+    - Generate a new password for "Mail" and "Windows Computer".
+    - Save this in `.env` as `APP_PASSWORD`.
+
+### 2. LinkedIn API
+- **The Challenge**: LinkedIn's API requires specific permissions (`w_member_social`) to post on a personal profile.
+- **How to Get Secrets**:
+    1. Create an app on the [LinkedIn Developers Portal](https://www.linkedin.com/developers/).
+    2. Under **Products**, add "Share on LinkedIn" and "Sign In with LinkedIn".
+    3. In the **Auth** tab, find your **Client ID** and **Client Secret**.
+    4. **Generate Access Token**:
+       - Use the [LinkedIn OAuth 2.0 Tools](https://www.linkedin.com/developers/tools/oauth) or a script to get a **3-legged Access Token**.
+       - Ensure you select the `w_member_social` and `openid profile` scopes.
+    5. **Find your Person ID (URN)**:
+       - Once you have the token, call the `me` endpoint:
+         ```bash
+         curl -X GET "https://api.linkedin.com/v2/me" -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+         ```
+       - The `id` field in the response (e.g., `urn:li:person:ABC123XYZ`) is your **LINKEDIN_PERSON_ID**.
+    6. Save `LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_PERSON_ID` in your `.env`.
+
+---
+
+# 🔐 Google Gmail API Setup (credentials.json process)
+
+## Step 1: Create Google Cloud Project
+
+1. Go to Google Cloud Console
+2. Click **Create Project**
+3. Name it (example: Personal AI Employee)
+4. Select project after creation
+
+---
+
+## Step 2: Enable Gmail API
+
+1. Go to **APIs & Services → Library**
+2. Search: Gmail API
+3. Click **Enable**
+
+---
+
+## Step 3: Create OAuth Credentials
+
+1. Go to **APIs & Services → Credentials**
+2. Click **Create Credentials**
+3. Select **OAuth Client ID**
+4. If prompted, configure Consent Screen:
+
+   * User Type: External
+   * App name: Personal AI Employee
+   * Add your email
+5. Create OAuth Client ID:
+
+   * Application Type: Desktop App
+6. Download JSON file
+
+Rename downloaded file to:
+
+```
+credentials.json
+```
+
+Place it inside:
+
+```
+Silver_Tier/
+```
+
+⚠️ Do NOT upload this file to GitHub.
+
+---
+
+# 🔄 How token.json Is Generated
+
+`token.json` is automatically generated the first time you run:
+
+```
+python run_watcher.py
+```
+
+Process:
+
+* Browser opens
+* You log in to Gmail
+* You grant access
+* OAuth access + refresh token is saved locally as `token.json`
+
+This token allows automation to access Gmail without logging in repeatedly.
+
+⚠️ Never push this file to GitHub.
+
+---
+
 ## 📈 Use Cases
 - **Customer Support:** Automatically drafting replies to common inquiries.
 - **Lead Generation:** Posting daily business insights to LinkedIn from raw notes.
