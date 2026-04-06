@@ -1,11 +1,11 @@
 # 🤖 Gold Tier: Personal AI Employee Hackathon
 
-Welcome to the **Gold Tier AI Employee** project. This is a sophisticated automation system designed to act as a digital member of your team. It doesn't just run scripts; it **monitors, reasons, asks for approval, and executes** tasks across Gmail, Accounting (Odoo), and Social Media (X, LinkedIn, Facebook).
+Welcome to the **Gold Tier AI Employee** project. This is a sophisticated automation system designed to act as a digital member of your team. It doesn't just run scripts; it **monitors, reasons, asks for approval, and executes** tasks across Gmail, Accounting (Odoo), and Social Media (X, LinkedIn, Instagram, Facebook).
 
 ---
 
 ## 🌟 Project Vision
-The goal of this project is to create a "Human-in-the-Loop" AI agent. It handles the complete lifecycle of tasks—from **monitoring and drafting** to **final execution and posting** (on X, LinkedIn, and Facebook)—while keeping a human supervisor in control via an easy approval system.
+The goal of this project is to create a "Human-in-the-Loop" AI agent. It handles the complete lifecycle of tasks—from **monitoring and drafting** to **final execution and posting** (on X, LinkedIn, Instagram and Facebook)—while keeping a human supervisor in control via an easy approval system.
 
 ---
 
