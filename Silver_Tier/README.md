@@ -105,4 +105,3 @@ Silver_Tier/
 This Personal AI Employee is designed to take your "Business on Autopilot." By combining local privacy with the reasoning power of Claude, it creates a scalable unit of value that grows with your needs.
 
 **Built for the 2026 AI Employee Hackathon.**
-**CEO:** Aashra Saleem
