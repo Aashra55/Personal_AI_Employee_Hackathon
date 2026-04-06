@@ -2,10 +2,12 @@
 **/.obsidian/
 **/twitter_profile/
 **/**_log.txt
+**/instagram_profile/
 
 # Python
 .env
 __pycache__/
+**/__pycache__/
 .venv/
 
 # Sensitive info
