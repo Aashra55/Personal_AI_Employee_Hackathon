@@ -1,11 +1,29 @@
 # 🤖 Personal AI Employee (Digital FTE) - Silver Tier
 
-Welcome to the future of work. This project is a **Digital FTE (Full-Time Equivalent)** designed to operate autonomously in 2026. It is a local-first, agent-driven system that manages your personal and business affairs 24/7 using Claude Code as its reasoning engine and Obsidian as its management dashboard.
+Welcome to the future of work. This project is a **Digital FTE (Full-Time Equivalent)** designed to operate autonomously in 2026. 
+
+### **What does this project actually do?**
+This is a local-first automation system that **manages your professional life** by:
+1.  **Handling your Gmail:** It monitors your inbox, understands incoming emails, and drafts professional replies automatically.
+2.  **Growing your LinkedIn:** It takes your raw ideas and automatically turns them into high-quality LinkedIn posts to drive business growth.
+
+It acts as your proactive business partner, working 24/7 using Claude Code as its reasoning engine and Obsidian as its management dashboard. You simply review and approve the AI's work before it goes live.
 
 ---
 
 ## 🌟 Project Vision
 A Digital FTE isn't just a chatbot; it’s a proactive business partner. While a human works 2,000 hours a year, this agent works **8,760 hours**, reducing task costs by up to 90%. It lives in your local environment, keeping your data private while automating your "Senses" (Watchers) and "Hands" (MCP Servers).
+
+---
+
+## 🚀 What This Silver Tier Does
+The Silver Tier elevates the automation by introducing **Human-in-the-Loop execution**. It doesn't just process data; it prepares actions and waits for your signal.
+
+✔ **Monitors Gmail:** Automatically pulls unread emails into your Obsidian Inbox.
+✔ **LinkedIn Content:** Watches for post ideas and drafts professional social media content.
+✔ **AI Reasoning:** Uses Claude to generate detailed **PLANs** and **PENDING** action drafts based on your `Company_Handbook.md`.
+✔ **Approval System:** Provides a safety gate where tasks are only executed once you move them to the `Approved` folder.
+✔ **Automated Execution:** Once approved, the system "Hands" (MCP Servers) automatically send emails or post to LinkedIn.
 
 ---
 
