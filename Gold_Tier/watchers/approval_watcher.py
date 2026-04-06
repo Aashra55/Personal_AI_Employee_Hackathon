@@ -117,19 +117,32 @@ class ApprovalWatcher(BaseWatcher):
     def _handle_odoo(self, content):
         client = re.search(r"Client: (.*)", content)
         amount = re.search(r"Amount: (.*)", content)
-        desc = re.search(r"Desc: (.*)", content)
+        
+        # Look for Desc: or Project: or fallback to ## Content
+        desc_match = re.search(r"Desc: (.*)", content)
+        if not desc_match:
+            desc_match = re.search(r"Project: (.*)", content)
+            
+        desc = None
+        if desc_match:
+            desc = desc_match.group(1).strip()
+        else:
+            # Fallback to the ## Content section
+            desc = self._extract_body(content, "## Content")
         
         if client and amount and desc:
-            print(f"[*] Creating Odoo Invoice...")
+            print(f"[*] Creating Odoo Invoice for {client.group(1).strip()}...")
             result = subprocess.run([
                 ".\\.venv\\Scripts\\python.exe", "mcp_server/odoo_server.py", "create_invoice",
                 client.group(1).strip(),
                 amount.group(1).strip(),
-                desc.group(1).strip()
+                desc
             ])
             return result.returncode == 0
         else:
-            print("[!] Failed to parse Odoo invoice details.")
+            if not client: print("[!] Missing 'Client:' in Odoo request.")
+            if not amount: print("[!] Missing 'Amount:' in Odoo request.")
+            if not desc: print("[!] Missing Description or '## Content' in Odoo request.")
             return False
 
 def check_approved_actions():
