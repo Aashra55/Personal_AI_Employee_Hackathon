@@ -31,6 +31,7 @@ The goal of this project is to create a "Human-in-the-Loop" AI agent. It handles
 3. **Approve**: A human moves the file from `Approval/Pending` to `Approval/Approved`.
 4. **Execute**: The `approval_watcher` detects the move and triggers the relevant MCP server to perform the task.
 5. **Archive**: The task is moved to `Executed` with a success timestamp.
+6. **Report**: Every Monday morning, the system automatically generates a **CEO Briefing** (located in `AI_Employee_Vault/Archive/Reports/`) summarizing Odoo financials and Social Media performance.
 
 ---
 

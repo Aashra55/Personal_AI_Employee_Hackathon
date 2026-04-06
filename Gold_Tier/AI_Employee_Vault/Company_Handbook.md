@@ -47,7 +47,7 @@ The AI Employee follows a strict lifecycle for every task:
 
 ### 📧 Email (Gmail)
 - **Response Time:** Draft responses for all business inquiries within the next loop.
-- **Style:** Helpful and direct. Always sign off as "Gold Tier AI Assistant".
+- **Style:** Helpful and direct. Always sign off as "Personal AI Assistant of Aashra Saleem".
 
 ---
 

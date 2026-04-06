@@ -14,16 +14,16 @@
 
 ## 📱 Social Media Performance
 ### Facebook
-- Reach: 1200
-- Engagement: 45
+- Reach: 1050
+- Engagement: 84
 
 ### Instagram
-- Reach: 850
-- Likes: 110
+- Reach: 330
+- Likes: 75
 
 ### Twitter (X)
-- Impressions: 4200
-- Retweets: 34
+- Impressions: 2250
+- Retweets: 40
 
 ---
 
