@@ -1,7 +1,7 @@
 ---
 type: instagram_post
 source_file: minimalist_ai_office.md
-received: 2026-04-02T11:45:52.736362
+received: 2026-04-06T12:37:56.692555
 status: pending
 ---
 
