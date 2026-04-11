@@ -190,7 +190,7 @@ This token allows automation to access Gmail without logging in repeatedly.
 
 1. **Clone the Project**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Aashra55/Personal_AI_Employee_Hackathon
    cd Gold_Tier
    ```
 
